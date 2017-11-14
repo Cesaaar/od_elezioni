@@ -1,0 +1,5 @@
+tweepy == 3.5.0
+SQLAlchemy == 0.9.8
+psycopg2 == 2.5.4
+pandas == 0.20.3
+facebook-sdk == 2.0.0
