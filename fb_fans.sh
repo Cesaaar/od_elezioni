@@ -12,3 +12,4 @@ python Facebook_Fans.py
 python Facebook_Last_Post.py
 python Twitter_Fans.py
 python Twitter_Last_Tweet.py
+python News.py
