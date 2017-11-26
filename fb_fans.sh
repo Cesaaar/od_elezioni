@@ -10,3 +10,5 @@ source bin/activate
 cd /home/pi/Documents/Progetti/opendata/od_elezioni
 python Facebook_Fans.py
 python Facebook_Last_Post.py
+python Twitter_Fans.py
+python Twitter_Last_Tweet.py
