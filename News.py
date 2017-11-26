@@ -72,8 +72,7 @@ def get_user_news(user,dt,today,key):
             'fonte':art['source']['name'],
             'titolo':art['title'],
             'url':art['url'],
-            'img':art['urlToImage'],
-            'dt_rif':today
+            'img':art['urlToImage']
         }
         l_article.append(d_article)
     
