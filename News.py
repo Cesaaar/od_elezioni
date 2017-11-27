@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[47]:
 
 
 # import librerie
@@ -17,7 +17,7 @@ import json
 import requests
 
 
-# In[2]:
+# In[48]:
 
 
 # configuration file
@@ -29,7 +29,7 @@ exec(open(config_file).read(),config)
 nw_key=config['TOKEN_NW']
 
 
-# In[3]:
+# In[49]:
 
 
 # Candidati Elezioni
@@ -40,7 +40,7 @@ users = [
 ]
 
 
-# In[14]:
+# In[50]:
 
 
 # get today's date
@@ -49,7 +49,7 @@ yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
 str_dt = str(yesterday.date())
 
 
-# In[15]:
+# In[51]:
 
 
 def get_user_news(user,dt,today,key):
@@ -65,21 +65,22 @@ def get_user_news(user,dt,today,key):
     l_article = []
     for art in articles[0:10]:
         d_article = {
-            'user':user,
+            'user':'all',
             'autore':art['author'],
             'desc':art['description'],
             'pubAt':art['publishedAt'],
             'fonte':art['source']['name'],
             'titolo':art['title'],
             'url':art['url'],
-            'img':art['urlToImage']
+            'img':art['urlToImage'],
+            'dt_rif':today
         }
         l_article.append(d_article)
     
     return l_article
 
 
-# In[42]:
+# In[52]:
 
 
 l = []
@@ -95,14 +96,31 @@ df1 = pd.DataFrame(l[1])
 df2 = pd.DataFrame(l[2])
 
 
-# In[55]:
+# In[54]:
 
 
 df = df0.append(df1).append(df2)
-df.head(2)
+
+
+# In[55]:
+
+
+df.drop_duplicates(inplace=True)
 
 
 # In[56]:
+
+
+df.count()
+
+
+# In[58]:
+
+
+df.head(2)
+
+
+# In[59]:
 
 
 # get database connection
@@ -111,7 +129,7 @@ schema=config['SCHEMA_ELE']
 engine = create_engine(db)
 
 
-# In[57]:
+# In[60]:
 
 
 # write on db

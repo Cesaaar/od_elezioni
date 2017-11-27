@@ -67,7 +67,7 @@ users = [
 
 
 # get today's date
-todays_date = datetime.datetime.now().date()
+todays_date = datetime.datetime.now()
 
 
 # In[27]:
