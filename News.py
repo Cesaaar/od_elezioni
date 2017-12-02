@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[47]:
+# In[1]:
 
 
 # import librerie
@@ -17,7 +17,7 @@ import json
 import requests
 
 
-# In[48]:
+# In[2]:
 
 
 # configuration file
@@ -29,7 +29,7 @@ exec(open(config_file).read(),config)
 nw_key=config['TOKEN_NW']
 
 
-# In[49]:
+# In[3]:
 
 
 # Candidati Elezioni
@@ -40,7 +40,7 @@ users = [
 ]
 
 
-# In[50]:
+# In[4]:
 
 
 # get today's date
@@ -49,7 +49,7 @@ yesterday = datetime.datetime.now() - datetime.timedelta(days=1)
 str_dt = str(yesterday.date())
 
 
-# In[51]:
+# In[12]:
 
 
 def get_user_news(user,dt,today,key):
@@ -63,9 +63,9 @@ def get_user_news(user,dt,today,key):
     json_data = json.loads(response.text)
     articles = json_data['articles']
     l_article = []
-    for art in articles[0:10]:
+    for art in articles[0:5]:
         d_article = {
-            'user':'all',
+            'user':user,
             'autore':art['author'],
             'desc':art['description'],
             'pubAt':art['publishedAt'],
@@ -80,7 +80,7 @@ def get_user_news(user,dt,today,key):
     return l_article
 
 
-# In[52]:
+# In[13]:
 
 
 l = []
@@ -88,39 +88,71 @@ for user in users:
     l.append(get_user_news(user['user'],str_dt,todays_date,nw_key))
 
 
-# In[53]:
+# In[21]:
 
 
-df0 = pd.DataFrame(l[0])
-df1 = pd.DataFrame(l[1])
-df2 = pd.DataFrame(l[2])
+df0_user = pd.DataFrame(l[0])
+df1_user = pd.DataFrame(l[1])
+df2_user = pd.DataFrame(l[2])
 
 
-# In[54]:
+# In[24]:
 
 
-df = df0.append(df1).append(df2)
+df_user = df0_user.append(df1_user).append(df2_user)
 
 
-# In[55]:
+# In[23]:
 
 
-df.drop_duplicates(inplace=True)
+df0_nouser = df0_user.drop('user',1)
+df1_nouser = df1_user.drop('user',1)
+df2_nouser = df2_user.drop('user',1)
 
 
-# In[56]:
+# In[25]:
+
+
+df_nouser = df0_nouser.append(df1_nouser).append(df2_nouser)
+
+
+# In[26]:
+
+
+df = df_nouser.drop_duplicates()
+
+
+# In[30]:
+
+
+df_user.drop(['autore','desc','dt_rif','fonte','img','pubAt','url'],1,inplace=True)
+
+
+# In[41]:
+
+
+df_user.drop_duplicates(inplace=True)
+
+
+# In[43]:
+
+
+df = df.merge(df_user, left_on='titolo', right_on='titolo', how='inner')
+
+
+# In[44]:
 
 
 df.count()
 
 
-# In[58]:
+# In[47]:
 
 
 df.head(2)
 
 
-# In[59]:
+# In[48]:
 
 
 # get database connection
@@ -129,7 +161,7 @@ schema=config['SCHEMA_ELE']
 engine = create_engine(db)
 
 
-# In[60]:
+# In[49]:
 
 
 # write on db
