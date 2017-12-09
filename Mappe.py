@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[52]:
+# In[1]:
 
 
 # Import Librerie
@@ -45,13 +45,36 @@ url="http://www.istat.it/storage/codici-unita-amministrative/Elenco-comuni-itali
 df_comuni = pd.read_csv(url,sep = ';',encoding='latin-1')
 
 
-# In[73]:
+# In[4]:
+
+
+def calc_prov(x):
+    prov = x['Denominazione provincia']
+    citt = x[u'Denominazione Città metropolitana']
+    if(prov=='-'):
+        prov = citt
+    return prov
+
+
+# In[5]:
+
+
+df_comuni['provincia_new'] = df_comuni.apply(lambda x: calc_prov(x), axis=1)
+
+
+# In[6]:
 
 
 comuni = df_comuni[u'Denominazione in italiano']
 
 
-# In[53]:
+# In[7]:
+
+
+province = df_comuni[['Denominazione in italiano','provincia_new']]
+
+
+# In[8]:
 
 
 # get today's date
@@ -77,7 +100,7 @@ header = ['msg','dt','fonte','user']
 df_news = pd.DataFrame(f_news, columns=header)
 
 
-# In[8]:
+# In[10]:
 
 
 # Leggo gli ultime social
@@ -98,7 +121,7 @@ header = ['msg','dt','fonte','user']
 df_social = pd.DataFrame(f_social, columns=header)
 
 
-# In[56]:
+# In[11]:
 
 
 df = df_social.append(df_news)
@@ -106,7 +129,7 @@ df.reset_index(drop=True, inplace=True)
 df.head(2)
 
 
-# In[57]:
+# In[12]:
 
 
 emoticons_str = r"""
@@ -141,7 +164,7 @@ def preprocess(s, lowercase=False):
     return tokens
 
 
-# In[112]:
+# In[14]:
 
 
 punctuation = list(string.punctuation)
@@ -158,22 +181,23 @@ for i, row in df['msg'].iteritems():
             d['dt_post'] = df['dt'][i]
             d['user'] = df['user'][i]
             d['dt_rif'] = todays_date
+            d['provincia'] = province.loc[province['Denominazione in italiano'] == term]['provincia_new'].values[0]
             mappe.append(d)
 
 
-# In[113]:
+# In[15]:
 
 
 df_mappe = pd.DataFrame(mappe)
 
 
-# In[114]:
+# In[17]:
 
 
-df_mappe.head(2)
+df_mappe
 
 
-# In[115]:
+# In[61]:
 
 
 # write to db

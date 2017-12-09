@@ -1,7 +1,7 @@
 
 # coding: utf-8
 
-# In[1]:
+# In[2]:
 
 
 # Import
@@ -33,14 +33,14 @@ user2 = config['USER2']
 user3 = config['USER3']
 
 
-# In[27]:
+# In[4]:
 
 
 # get today's date
 todays_date = datetime.datetime.now()
 
 
-# In[30]:
+# In[5]:
 
 
 # LAST Twitter Post
@@ -50,6 +50,7 @@ cur = engine.execute(
         dt_post as dt
         ,msg as msg
         ,"user" as user
+        ,likes as likes
         ,'twitter' as sorgente
         ,''' "'" + str(todays_date) + "'" ''' as dt_rif
     FROM ''' + schema + '''."tw_posts"
@@ -60,7 +61,7 @@ cur = engine.execute(
 tw_posts = cur.fetchall()
 
 
-# In[48]:
+# In[6]:
 
 
 # LAST Facebook Post
@@ -70,6 +71,7 @@ cur = engine.execute(
         to_char (dt_post::timestamp at time zone 'UTC', 'YYYY-MM-DD HH24:MI:SS') as dt
         ,msg as msg
         ,"user" as user
+        ,likes as likes
         ,'facebook' as sorgente
         ,''' "'" + str(todays_date) + "'" ''' as dt_rif
     FROM ''' + schema + '''."fb_posts"
@@ -80,7 +82,7 @@ cur = engine.execute(
 fb_posts = cur.fetchall()
 
 
-# In[54]:
+# In[7]:
 
 
 # LAST News
@@ -90,6 +92,7 @@ cur = engine.execute(
         to_char ("pubAt"::timestamp at time zone 'UTC', 'YYYY-MM-DD HH24:MI:SS') as dt
         ,titolo as msg
         ,'all' as user
+        ,0 as likes
         ,'news' as sorgente
         ,''' "'" + str(todays_date) + "'" ''' as dt_rif
     FROM ''' + schema + '''."news"
@@ -101,28 +104,28 @@ cur = engine.execute(
 news = cur.fetchall()
 
 
-# In[49]:
+# In[8]:
 
 
-header = ['dt','msg','user','sorgente', 'dt_rif']
+header = ['dt','msg','user','likes','sorgente', 'dt_rif']
 df_tw_post = pd.DataFrame(tw_posts, columns=header)
 df_fb_post = pd.DataFrame(fb_posts, columns=header)
 df_news = pd.DataFrame(news, columns=header)
 
 
-# In[50]:
+# In[9]:
 
 
 df_all = df_news.append(df_tw_post).append(df_fb_post)
 
 
-# In[53]:
+# In[12]:
 
 
 df_all.head(2)
 
 
-# In[52]:
+# In[13]:
 
 
 # write to db
