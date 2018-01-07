@@ -52,12 +52,13 @@ graph = facebook.GraphAPI(access_token=access_token, version='2.7')
 
 # Candidati Elezioni
 users = [
-    {'user':'Renzi','user_id':'113335124914'},
-    {'user':'Di Maio','user_id':'522391027797448'},
-    {'user':'Salvini','user_id':'252306033154'},
-    {'user':'Pisapia','user_id':'112352038802143'},
-    {'user':'Meloni','user_id':'38919827644'},
-    {'user':'Berlusconi','user_id':'116716651695782'}
+    {'user':config['USER1'],'user_id':config['USER1_ID_FB']},
+    {'user':config['USER2'],'user_id':config['USER2_ID_FB']},
+    {'user':config['USER3'],'user_id':config['USER3_ID_FB']},
+    {'user':config['USER4'],'user_id':config['USER4_ID_FB']},
+    {'user':config['USER5'],'user_id':config['USER5_ID_FB']},
+    {'user':config['USER6'],'user_id':config['USER6_ID_FB']},
+    {'user':config['USER7'],'user_id':config['USER7_ID_FB']}
 ]
 
 

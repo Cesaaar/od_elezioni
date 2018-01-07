@@ -15,3 +15,4 @@ python Twitter_Last_Tweet.py
 python News.py
 python Timeline.py
 python Mappe.py
+python WordCloud.py

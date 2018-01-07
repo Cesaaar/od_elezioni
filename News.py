@@ -36,7 +36,9 @@ nw_key=config['TOKEN_NW']
 users = [
     {'user':config['USER1'],'user_id':config['USER1_ID_TW']},
     {'user':config['USER2'],'user_id':config['USER2_ID_TW']},
-    {'user':config['USER3'],'user_id':config['USER3_ID_TW']}
+    {'user':config['USER3'],'user_id':config['USER3_ID_TW']},
+    {'user':config['USER4'],'user_id':config['USER4_ID_TW']},
+    {'user':config['USER7'],'user_id':config['USER7_ID_TW']}
 ]
 
 
@@ -94,12 +96,14 @@ for user in users:
 df0_user = pd.DataFrame(l[0])
 df1_user = pd.DataFrame(l[1])
 df2_user = pd.DataFrame(l[2])
+df3_user = pd.DataFrame(l[3])
+df4_user = pd.DataFrame(l[4])
 
 
 # In[24]:
 
 
-df_user = df0_user.append(df1_user).append(df2_user)
+df_user = df0_user.append(df1_user).append(df2_user).append(df3_user).append(df4_user)
 
 
 # In[23]:
@@ -108,12 +112,14 @@ df_user = df0_user.append(df1_user).append(df2_user)
 df0_nouser = df0_user.drop('user',1)
 df1_nouser = df1_user.drop('user',1)
 df2_nouser = df2_user.drop('user',1)
+df3_nouser = df3_user.drop('user',1)
+df4_nouser = df4_user.drop('user',1)
 
 
 # In[25]:
 
 
-df_nouser = df0_nouser.append(df1_nouser).append(df2_nouser)
+df_nouser = df0_nouser.append(df1_nouser).append(df2_nouser).append(df3_nouser).append(df4_nouser)
 
 
 # In[26]:

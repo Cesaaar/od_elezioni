@@ -39,7 +39,8 @@ users = [
     {'user':config['USER3'],'user_id':config['USER3_ID_TW']},
     {'user':config['USER4'],'user_id':config['USER4_ID_TW']},
     {'user':config['USER5'],'user_id':config['USER5_ID_TW']},
-    {'user':config['USER6'],'user_id':config['USER6_ID_TW']}
+    {'user':config['USER6'],'user_id':config['USER6_ID_TW']},
+    {'user':config['USER7'],'user_id':config['USER7_ID_TW']}
 ]
 
 
